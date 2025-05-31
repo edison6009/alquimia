@@ -7,4 +7,6 @@ sys.path.append(str(BASE_DIR))
 from settings import *
 
 if __name__ == "__main__":
-    print(CONN)
+    conn = engine.connect()
+    print("Conexión exitosa a la base de datos")
+    conn.close()

@@ -15,9 +15,11 @@ CONNECTION_DATA = ConnectionData(
     DRIVER=os.getenv("DRIVER")
 )
 
-CONN = ManagerDatabase(
+conn = ManagerDatabase(
     connection = CONNECTION_DATA.url,
     echo = False,
     autocommit = False,
     autoflush = False
 )
+
+engine = conn.engine
