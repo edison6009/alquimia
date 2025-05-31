@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+
+# Archivos de entorno virtual
+env/
+venv/
+.venv/
+
+# Configuración de editores
+.idea/
+.vscode/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
