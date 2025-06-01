@@ -15,11 +15,6 @@ CONNECTION_DATA = ConnectionData(
     DRIVER=os.getenv("DRIVER")
 )
 
-conn = ManagerDatabase(
-    connection = CONNECTION_DATA.url,
-    echo = False,
-    autocommit = False,
-    autoflush = False
-)
+engine = init_database(CONNECTION_DATA.url, echo = False)
 
-engine = conn.engine
+SessionLocal = init_session(engine, autocommit = False, autoflush = False)
