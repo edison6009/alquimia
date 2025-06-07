@@ -8,12 +8,8 @@ from settings import *
 from app.controllers.user_controller import get_users, add_user
 
 if __name__ == "__main__":
-    add_user("edison")
-
-    # Obtener todos los usuarios registrados
-    usuarios = get_users()
-
-    # Mostrar los resultados
-    print("Usuarios en la base de datos:")
-    for usuario in usuarios:
-        print(f"- {usuario.name}")
+    try:
+        with engine.connect() as conn:
+            print("Conexión exitosa con la base de datos")
+    except Exception as e:
+        print(f"Error al conectar: {e}")

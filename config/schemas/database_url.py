@@ -1,6 +1,6 @@
 
 class ConnectionData:
-    def __init__(self, USER, PASSWORD, HOST, PORT, DATABASE, DIALECT, DRIVER):
+    def __init__(self, DATABASE, DIALECT, USER=None, PASSWORD=None, HOST=None, PORT=None, DRIVER=None):
         self.user = USER
         self.password = PASSWORD
         self.host = HOST
@@ -10,7 +10,11 @@ class ConnectionData:
         self.driver = DRIVER
         
     @property
-    def url(self):
+    def url_embedded(self):
+        return f"{self.dialect}:///{self.database}"
+
+    @property
+    def url_server(self):
         return (
             f"{self.dialect}+{self.driver}://"
             f"{self.user}:{self.password}@"
