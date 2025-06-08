@@ -5,7 +5,8 @@ from config.manager import *
 
 load_dotenv()
 
-CONNECTION_DATA = ConnectionData(
+##client-server
+'''CONNECTION_DATA = ConnectionData(
     USER=os.getenv("USER"),
     PASSWORD=os.getenv("PASSWORD"),
     HOST=os.getenv("HOST"),
@@ -13,11 +14,15 @@ CONNECTION_DATA = ConnectionData(
     DATABASE=os.getenv("DATABASE"),
     DIALECT=os.getenv("DIALECT"),
     DRIVER=os.getenv("DRIVER")
+)'''
+## embedded
+CONNECTION_DATA = ConnectionData(
+    DATABASE=os.getenv("DATABASE"),
+    DIALECT=os.getenv("DIALECT"),
 )
 
-CONN = ManagerDatabase(
-    connection = CONNECTION_DATA.url,
-    echo = False,
-    autocommit = False,
-    autoflush = False
-)
+engine = init_database(
+    CONNECTION_DATA.url_embedded, #url_server
+    echo = False)
+
+SessionLocal = init_session(engine, autocommit = False, autoflush = False)

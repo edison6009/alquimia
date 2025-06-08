@@ -7,9 +7,8 @@ dist/
 build/
 
 # Archivos de entorno virtual
-env/
 venv/
-.venv/
+.env
 
 # Configuración de editores
 .idea/
@@ -18,3 +17,6 @@ venv/
 # Archivos de sistema
 .DS_Store
 Thumbs.db
+
+#Base de datos
+Alquimia.db
