@@ -7,9 +7,8 @@ dist/
 build/
 
 # Archivos de entorno virtual
-env/
 venv/
-.venv/
+.env
 
 # Configuración de editores
 .idea/
