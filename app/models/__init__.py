@@ -1,6 +1,10 @@
-from sqlalchemy.ext.declarative import declarative_base
 
-Base = declarative_base()
+# from sqlalchemy.ext.declarative import declarative_base
+# Base = declarative_base() #alquemist declarative form 2.0 
 
-from app.models.user import User
+from sqlalchemy.orm import DeclarativeBase
+class Base(DeclarativeBase): #alquemist declarative form 2.0+
+    pass
+
+from app.models.client import Client
 

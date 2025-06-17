@@ -72,3 +72,7 @@ Ejemplo:
 Si necesitas consultar los comandos disponibles:
 
     alembic --help
+
+8. Generar SQL apartir de migraciones
+
+    alembic upgrade head --sql > script.sql

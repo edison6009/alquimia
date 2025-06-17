@@ -15,14 +15,17 @@ load_dotenv()
     DIALECT=os.getenv("DIALECT"),
     DRIVER=os.getenv("DRIVER")
 )'''
+
 ## embedded
 CONNECTION_DATA = ConnectionData(
     DATABASE=os.getenv("DATABASE"),
     DIALECT=os.getenv("DIALECT"),
 )
 
+DATABASE_URL = CONNECTION_DATA.url_embedded #url_server
+
 engine = init_database(
-    CONNECTION_DATA.url_embedded, #url_server
+    DATABASE_URL,
     echo = False)
 
 SessionLocal = init_session(engine, autocommit = False, autoflush = False)
