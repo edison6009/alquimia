@@ -3,7 +3,8 @@
 # Base = declarative_base() #alquemist declarative form 2.0 
 
 from sqlalchemy.orm import DeclarativeBase
-class Base(DeclarativeBase): #alquemist declarative form 2.0+
+from sqlalchemy_mixins import AllFeaturesMixin
+class Base(DeclarativeBase, AllFeaturesMixin): #alquemist declarative form 2.0+
     pass
 
 from app.models.client import Client
