@@ -3,9 +3,16 @@
 # Base = declarative_base() #alquemist declarative form 2.0 
 
 from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy_mixins import AllFeaturesMixin
-class Base(DeclarativeBase, AllFeaturesMixin): #alquemist declarative form 2.0+
+import importlib
+import pkgutil
+class Base(DeclarativeBase): #alquemist declarative form 2.0+
     pass
 
-from app.models.client import Client
+def auto_import_models():
+    package = __import__(__name__)
+    for _, name, _ in pkgutil.iter_modules(__path__):
+        importlib.import_module(f"{__name__}.{name}")
+
+# Ejecutar importación automática al cargar el paquete
+auto_import_models()
 
