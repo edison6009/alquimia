@@ -1,5 +1,5 @@
 from settings import SessionLocal
-from models import Role
+from app.models.user import Role
 from sqlalchemy.exc import IntegrityError
 
 def seed_roles():
