@@ -1,5 +1,8 @@
+from typing import Optional
 from app.models.user import User
 from settings import *
+from app.schemas.user import UserCreate
+
 
 def get_users():
     session = SessionLocal()
@@ -7,9 +10,16 @@ def get_users():
     session.close()
     return users
 
-def add_user(name):
+
+def add_user(name: str, email: Optional[str] = None) -> None:
+    validated = UserCreate(name=name, email=email)
     session = SessionLocal()
-    new_user = User(name=name)
-    session.add(new_user)
-    session.commit()
-    session.close()
+    try:
+        new_user = User(name=validated.name, email=validated.email)
+        session.add(new_user)
+        session.commit()
+    except Exception:
+        session.rollback()
+        raise
+    finally:
+        session.close()
