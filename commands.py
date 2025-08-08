@@ -1,7 +1,7 @@
 from app.seeders.sedeers import seed_roles
 
 def init():
-    pass
+    print('aplicacion iniciada')
 
 commands = {
     "init": init,

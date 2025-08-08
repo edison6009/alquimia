@@ -4,16 +4,6 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Integer, String, Text, ForeignKey
 from datetime import datetime
 
-class Session(Base, CreatedAtMixin):
-    __tablename__ = "sessions"
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("Users.id"), nullable=False)
-    expires_at: Mapped[datetime]
-    is_active: Mapped[bool] = mapped_column(default=True)
-
-    user: Mapped["User"] = relationship("User", back_populates="sessions")
-
 class Role(Base):
     __tablename__ = "roles"
 
@@ -22,9 +12,8 @@ class Role(Base):
 
     users: Mapped[list["User"]] = relationship("User", back_populates="role")
 
-
 class User(Base, PasswordMixin, DateTimeMixin, SoftDeleteMixin):
-    __tablename__ = "Users"
+    __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     nombre: Mapped[str] = mapped_column(String(50), nullable=False)
@@ -33,4 +22,21 @@ class User(Base, PasswordMixin, DateTimeMixin, SoftDeleteMixin):
 
     role: Mapped["Role"] = relationship("Role", back_populates="users")
     sessions: Mapped[list["Session"]] = relationship("Session", back_populates="user")
+    
+    def __str__(self):
+        parts = [f"User(nombre='{self.nombre}')"]
 
+        if self.role:
+            parts.append(f"Role='{self.role.name}'")
+        
+        return " | ".join(parts)
+
+class Session(Base, CreatedAtMixin):
+    __tablename__ = "sessions"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
+    expires_at: Mapped[datetime]
+    is_active: Mapped[bool] = mapped_column(default=True)
+
+    user: Mapped["User"] = relationship("User", back_populates="sessions")
