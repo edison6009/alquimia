@@ -1,15 +1,20 @@
+from typing import Optional
+from sqlalchemy import select
 from app.models.user import User
-from settings import *
+from settings import SessionLocal
+
 
 def get_users():
-    session = SessionLocal()
-    users = session.query(User).all()
-    session.close()
-    return users
+    with SessionLocal() as session:
+        return session.execute(select(User)).scalars().all()
 
-def add_user(name):
-    session = SessionLocal()
-    new_user = User(name=name)
-    session.add(new_user)
-    session.commit()
-    session.close()
+
+def add_user(name: str, email: Optional[str] = None):
+    with SessionLocal() as session:
+        new_user = User(name=name, email=email)
+        try:
+            session.add(new_user)
+            session.commit()
+        except Exception:
+            session.rollback()
+            raise
