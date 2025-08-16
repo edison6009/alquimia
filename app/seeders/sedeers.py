@@ -1,15 +1,18 @@
 from settings import SessionLocal
-from app.models.user import Role
+from app.models.rols import Rol
 from sqlalchemy.exc import IntegrityError
+
+def seeders():
+    seed_roles()
 
 def seed_roles():
     role_names = ["observer", "employee", "admin"]
 
     with SessionLocal() as session:
         for name in role_names:
-            exists = session.query(Role).filter_by(name=name).first()
+            exists = session.query(Rol).filter_by(name=name).first()
             if not exists:
-                session.add(Role(name=name))
+                session.add(Rol(name=name))
         try:
             session.commit()
             print("Roles base sembrados correctamente.")
