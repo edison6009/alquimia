@@ -6,17 +6,17 @@ from config.manager import *
 load_dotenv()
 
 ##client-server
-'''CONNECTION_DATA = ConnectionData(
-    USER=os.getenv("USER"),
-    PASSWORD=os.getenv("PASSWORD"),
-    HOST=os.getenv("HOST"),
-    PORT=os.getenv("PORT"),
-    DATABASE=os.getenv("DATABASE"),
-    DIALECT=os.getenv("DIALECT"),
-    DRIVER=os.getenv("DRIVER")
-)'''
+# CONNECTION_DATA = ConnectionData(
+#     USER=os.getenv("USER"),
+#     PASSWORD=os.getenv("PASSWORD"),
+#     HOST=os.getenv("HOST"),
+#     PORT=os.getenv("PORT"),
+#     DATABASE=os.getenv("DATABASE"),
+#     DIALECT=os.getenv("DIALECT"),
+#     DRIVER=os.getenv("DRIVER")
+# )
 
-## embedded
+# embedded
 CONNECTION_DATA = ConnectionData(
     DATABASE=os.getenv("DATABASE"),
     DIALECT=os.getenv("DIALECT"),
