@@ -10,5 +10,14 @@ class UserRol(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
     rol_id: Mapped[int] = mapped_column(ForeignKey("rols.id"), primary_key=True)
 
-    user: Mapped["User"] = relationship(back_populates="user_rols")
-    rol: Mapped["Rol"] = relationship(back_populates="rol_users")
+    user: Mapped["User"] = relationship(
+        back_populates="user_rols",
+        overlaps="users,rols"
+    )
+
+    rol: Mapped["Rol"] = relationship(
+        back_populates="rol_users",
+        overlaps="user_rols,users"
+    )
+
+

@@ -13,12 +13,17 @@ class User(Base, PasswordMixin, DateTimeMixin, SoftDeleteMixin):
     last_name: Mapped[str] = mapped_column(String(100), nullable=False)
     username: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
 
-    user_rols: Mapped[list["UserRol"]] = relationship("UserRol", back_populates="user")
     sessions: Mapped[list["Session"]] = relationship("Session", back_populates="user")
+    user_rols: Mapped[list["UserRol"]] = relationship(
+        "UserRol",
+        back_populates="user",
+        overlaps="users"
+    )
     rols: Mapped[list["Rol"]] = relationship(
         "Rol",
         secondary="user_rols",
-        back_populates="users"
+        back_populates="users",
+        overlaps="rol_users,user_rols,rol"
     )
     
     def __str__(self):

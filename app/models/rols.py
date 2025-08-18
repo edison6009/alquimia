@@ -8,10 +8,17 @@ class Rol(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(30), unique=True, nullable=False)
 
-    rol_users: Mapped[list["UserRol"]] = relationship("UserRol", back_populates="rol")
-    
+    rol_users: Mapped[list["UserRol"]] = relationship(
+        "UserRol",
+        back_populates="rol",
+        overlaps="users"
+    )
+
     users: Mapped[list["User"]] = relationship(
         "User",
         secondary="user_rols",
-        back_populates="rols"
+        back_populates="rols",
+        overlaps="user_rols"
     )
+
+
