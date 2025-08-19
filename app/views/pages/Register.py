@@ -24,30 +24,39 @@ class RegisterPage(wx.Panel):
         right_panel_sizer.Add(title_label, 0, wx.ALIGN_CENTER | wx.TOP | wx.BOTTOM, 40)
         
         # Campos
-        username_label = wx.StaticText(right_panel, wx.ID_ANY, "Usuario")
+        self.name_textctrl = wx.TextCtrl(right_panel, wx.ID_ANY)
+        self.name_textctrl.SetMinSize((300, -1))
+
+        self.last_name_textctrl = wx.TextCtrl(right_panel, wx.ID_ANY)
+        self.last_name_textctrl.SetMinSize((300, -1))
+
         self.username_textctrl = wx.TextCtrl(right_panel, wx.ID_ANY)
         self.username_textctrl.SetMinSize((300, -1))
         
-        email_label = wx.StaticText(right_panel, wx.ID_ANY, "Correo Electrónico")
         self.email_textctrl = wx.TextCtrl(right_panel, wx.ID_ANY)
         self.email_textctrl.SetMinSize((300, -1))
+
+        self.phone_textctrl = wx.TextCtrl(right_panel, wx.ID_ANY)
+        self.phone_textctrl.SetMinSize((300, -1))
         
-        password_label = wx.StaticText(right_panel, wx.ID_ANY, "Contraseña")
         self.password_textctrl = wx.TextCtrl(right_panel, wx.ID_ANY, style=wx.TE_PASSWORD)
         self.password_textctrl.SetMinSize((300, -1))
         
-        confirm_label = wx.StaticText(right_panel, wx.ID_ANY, "Confirmar Contraseña")
         self.confirm_textctrl = wx.TextCtrl(right_panel, wx.ID_ANY, style=wx.TE_PASSWORD)
         self.confirm_textctrl.SetMinSize((300, -1))
         
         fields = [
-            (username_label, self.username_textctrl),
-            (email_label, self.email_textctrl),
-            (password_label, self.password_textctrl),
-            (confirm_label, self.confirm_textctrl)
+            ("Nombre", self.name_textctrl),
+            ("Apellido", self.last_name_textctrl),
+            ("Usuario", self.username_textctrl),
+            ("Correo Electrónico", self.email_textctrl),
+            ("Teléfono", self.phone_textctrl),
+            ("Contraseña", self.password_textctrl),
+            ("Confirmar Contraseña", self.confirm_textctrl),
         ]
         for label, ctrl in fields:
-            right_panel_sizer.Add(label, 0, wx.ALIGN_LEFT | wx.LEFT | wx.TOP, 10)
+            label_ctrl = wx.StaticText(right_panel, wx.ID_ANY, label)
+            right_panel_sizer.Add(label_ctrl, 0, wx.ALIGN_LEFT | wx.LEFT | wx.TOP, 10)
             right_panel_sizer.Add(ctrl, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 10)
         
         # Botón registrar
@@ -56,6 +65,7 @@ class RegisterPage(wx.Panel):
         self.register_btn.SetForegroundColour(wx.WHITE)
         self.register_btn.SetFont(wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD))
         right_panel_sizer.Add(self.register_btn, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 10)
+        self.register_btn.Bind(wx.EVT_BUTTON, self.on_register_clicked)
         
         # Enlace volver a login
         login_link = wx.StaticText(right_panel, wx.ID_ANY, "¿Ya tienes cuenta? Inicia sesión aquí")
@@ -74,11 +84,15 @@ class RegisterPage(wx.Panel):
         self.Layout()
         
     def on_register_clicked(self, event):
+        name = self.name_textctrl.GetValue()
+        last_name = self.last_name_textctrl.GetValue()
         username = self.username_textctrl.GetValue()
         email = self.email_textctrl.GetValue()
+        phone = self.phone_textctrl.GetValue()
         password = self.password_textctrl.GetValue()
         confirm = self.confirm_textctrl.GetValue()
-        wx.MessageBox(f"Registro con:\nUsuario: {username}\nCorreo: {email}\nContraseña: {'*'*len(password)}", 
+        
+        wx.MessageBox(f"Registro con:\nNombre: {name}\nApellido: {last_name}\nUsuario: {username}\nCorreo: {email}\nTeléfono: {phone}\nContraseña: {'*'*len(password)}", 
                       "Acción", wx.OK | wx.ICON_INFORMATION)
     
     def on_login_clicked(self, event):

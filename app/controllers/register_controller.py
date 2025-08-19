@@ -1,13 +1,36 @@
 from settings import SessionLocal
+from app.models.users import User
+from pydantic import ValidationError
+from app.validations.user_validations import *
 
-class registerController:
-    def __init__(self):
-        self.db = SessionLocal()
+class RegisterController:
+    def register(self, **kwargs) -> User | dict:
+        
+        result = RegisterValidation.validate_all_fields(**kwargs)
+        return result
+        
+        # try:
+        #     return RegisterValidation(**kwargs)
+        # except MultiError as e:
+        #     return {e.field: e.messages}
 
-    def register(self, username, password):
-        # Logic for user registration
-        pass
+        # with SessionLocal() as session:
+        #     if session.query(User).filter(User.username == data.username).first():
+        #         return {"username": "El nombre de usuario ya está registrado."}
+        #     if session.query(User).filter(User.email == data.email).first():
+        #         return {"email": "El correo ya está registrado."}
 
-    def is_username_taken(self, username):
-        # Logic to check if the username is already taken
-        pass
+        #     user = User(
+        #         name=data.name,
+        #         last_name=data.last_name,
+        #         username=data.username,
+        #         email=data.email,
+        #         phone=data.phone
+        #     )
+        #     user.password = data.password
+
+        #     session.add(user)
+        #     session.commit()
+        #     session.refresh(user)
+
+            # return user
