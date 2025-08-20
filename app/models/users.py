@@ -23,7 +23,10 @@ class User(Base, PasswordMixin, DateTimeMixin, SoftDeleteMixin):
         "Rol",
         secondary="user_rols",
         back_populates="users",
-        overlaps="rol_users,user_rols,rol"
+        
+        lazy="selectin",
+        
+        overlaps="rol_users,user_rols,rol",
     )
     
     def __str__(self):
