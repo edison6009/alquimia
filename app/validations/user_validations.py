@@ -1,50 +1,91 @@
-from pydantic import BaseModel, field_validator #, EmailStr, Field
+from pydantic import BaseModel, field_validator
+from typing import Optional
 
-from app.mixins.emails_are_valid import emails_are_valid
+from app.validations.schemas.exist import exist
+from app.validations.schemas.auxiliares import *
+from app.validations.schemas.emails_are_valid import emails_are_valid
 
 class UserValidation(BaseModel):
-    # Modelo base de Pydantic para validar datos de usuario
-    name: str  # Nombre del usuario, obligatorio
-    last_name: str  # Apellido del usuario, obligatorio
-    username: str  # Nombre de usuario único, obligatorio
-    email: str  # Correo electrónico, se valida con lógica personalizada
-    phone: str  # Número de teléfono, validado manualmente (mínimo 10 dígitos)
-    password: str  # Contraseña, validada con reglas de seguridad
+    name: str
+    last_name: str
+    username: str
+    email: str
+    phone: Optional[str]
+    password: str
+
+    @field_validator("name")
+    def name_valid(cls, name):
+        errors = []
+        if not name:
+            errors.append("El nombre no puede estar en blanco")
+        if has_spaces(name):
+            errors.append("El nombre no debe contener espacios")
+        if has_invalid_characters(name):
+            errors.append("El nombre solo debe contener letras sin símbolos ni números")
+        if errors:
+            raise ValueError(", ".join(errors))
+        return name
+
+    @field_validator("last_name")
+    def last_name_valid(cls, last_name):
+        errors = []
+        if not last_name:
+            errors.append("El apellido no puede estar en blanco")
+        if has_spaces(last_name):
+            errors.append("El apellido no debe contener espacios")
+        if has_invalid_characters(last_name):
+            errors.append("El apellido solo debe contener letras sin símbolos ni números")
+        if errors:
+            raise ValueError(", ".join(errors))
+        return last_name
+
+    @field_validator("username")
+    def username_valid(cls, username):
+        errors = []
+        if not username:
+            errors.append("El nombre de usuario no puede estar en blanco")
+        if has_spaces(username):
+            errors.append("El nombre de usuario no debe contener espacios")
+        if errors:
+            raise ValueError(", ".join(errors))
+        return username
 
     @field_validator("email")
-    def email_valid(cls, email: str) -> str:
-        # Valida el formato del correo electrónico
-        email = email.strip()  # Elimina espacios antes/después
-        email_validators = []  # Lista de errores acumulados
-        if email and not emails_are_valid(email):
-            email_validators.append("El correo no tiene un formato válido")
-        if email_validators:
-            raise ValueError(",".join(email_validators))  # Lanza todos los errores juntos
-        return email  # Retorna el correo limpio si es válido
+    def email_valid(cls, email):
+        email = email.strip()
+        errors = []
+        if not email:
+            errors.append("El correo no puede estar en blanco")
+        elif emails_are_valid(email):
+            errors.append("El correo no tiene un formato válido")
+        if has_spaces(email):
+            errors.append("El email no debe contener espacios")
+        if errors:
+            raise ValueError(", ".join(errors))
+        return email
 
     @field_validator("phone")
     def phone_valid(cls, phone):
-        # Valida que el teléfono tenga solo dígitos y longitud mínima
-        phone = phone.strip()  # Elimina espacios
-        phone_validators = []  # Lista de errores acumulados
+        errors = []
+        if exist(phone) is None:
+            return None
         if not phone.isdigit():
-            phone_validators.append("Debe contener solo dígitos")
+            errors.append("Debe contener solo dígitos")
         if len(phone) < 10:
-            phone_validators.append("Debe tener al menos 10 dígitos")
-        if phone_validators:
-            raise ValueError(",".join(phone_validators))  # Lanza todos los errores juntos
-        return phone  # Retorna el teléfono limpio si es válido
+            errors.append("Debe tener al menos 10 dígitos")
+        if errors:
+            raise ValueError(", ".join(errors))
+        return phone
 
     @field_validator("password")
     def password_valid(cls, password):
-        # Valida que la contraseña cumpla requisitos mínimos de seguridad
-        password_validators = []  # Lista de errores acumulados
+        errors = []
         if len(password) < 8:
-            password_validators.append("Debe tener al menos 8 caracteres")
+            errors.append("Debe tener al menos 8 caracteres")
         if not any(c.isdigit() for c in password):
-            password_validators.append("Debe contener al menos un número")
+            errors.append("Debe contener al menos un número")
         if not any(c.isalpha() for c in password):
-            password_validators.append("Debe contener al menos una letra")
-        if password_validators:
-            raise ValueError(",".join(password_validators))  # Lanza todos los errores juntos
-        return password  # Retorna la contraseña si es válida
+            errors.append("Debe contener al menos una letra")
+        if errors:
+            raise ValueError(", ".join(errors))
+        return password

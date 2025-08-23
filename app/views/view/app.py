@@ -1,10 +1,10 @@
 import wx
 # --- 1. Importaciones ---
-from app.views.components.SideMenu import SideMenu
-from app.views.pages.AdminPage import AdminPage
-from app.views.pages.CategoryPage import CategoryPage
-from app.views.pages.Login import LoginPage
-from app.views.pages.Register import RegisterPage
+from app.views.view.components.SideMenu import SideMenu
+from app.views.view.pages.AdminPage import AdminPage
+from app.views.view.pages.CategoryPage import CategoryPage
+from app.views.view.pages.Login import LoginPage
+from app.views.view.pages.Register import RegisterPage
 
 class MiVentana(wx.Frame):
     def __init__(self, parent, title):

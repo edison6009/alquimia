@@ -17,7 +17,8 @@ class User(Base, PasswordMixin, DateTimeMixin, SoftDeleteMixin):
     user_rols: Mapped[list["UserRol"]] = relationship(
         "UserRol",
         back_populates="user",
-        overlaps="users"
+        overlaps="users",
+        cascade="all, delete-orphan"
     )
     rols: Mapped[list["Rol"]] = relationship(
         "Rol",

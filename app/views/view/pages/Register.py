@@ -1,5 +1,10 @@
 import wx
 
+from app.controllers.user_controller import UserController
+
+from app.mixins.has_error_payload import has_error_payload
+
+
 class RegisterPage(wx.Panel):
     def __init__(self, parent, main_frame):
         super(RegisterPage, self).__init__(parent)
@@ -92,8 +97,18 @@ class RegisterPage(wx.Panel):
         password = self.password_textctrl.GetValue()
         confirm = self.confirm_textctrl.GetValue()
         
-        wx.MessageBox(f"Registro con:\nNombre: {name}\nApellido: {last_name}\nUsuario: {username}\nCorreo: {email}\nTeléfono: {phone}\nContraseña: {'*'*len(password)}", 
-                      "Acción", wx.OK | wx.ICON_INFORMATION)
+        user_controller = UserController()
+        data = user_controller.register(
+        name=name,
+        last_name=last_name,
+        username=username,
+        email=email,
+        phone=phone,
+        password=password
+        )
+        
+        print(data)
+        
     
     def on_login_clicked(self, event):
         self.main_frame.show_login_page()
