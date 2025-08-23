@@ -1,5 +1,5 @@
 from app.models import Base
-from app.models.abstracts import CreatedAtMixin
+from app.models.abstracts.datetime_mixin import CreatedAtMixin
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import ForeignKey
 from datetime import datetime

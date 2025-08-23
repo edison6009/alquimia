@@ -1,4 +1,4 @@
-from app.seeders.sedeers import *
+from app.seeders.sedeers import seeders, seed_roles
 from app.views.view.app import MiVentana
 import wx
 

@@ -1,6 +1,6 @@
 from app.models import Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, ForeignKey
+from sqlalchemy import ForeignKey
 
 class UserRol(Base):
     __tablename__ = "user_rols"

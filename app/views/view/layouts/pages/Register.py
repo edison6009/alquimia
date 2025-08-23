@@ -4,6 +4,7 @@ from app.controllers.user_controller import UserController
 
 from app.mixins.has_errors import has_errors
 
+
 class RegisterPage(wx.Panel):
     def __init__(self, parent, main_frame):
         super(RegisterPage, self).__init__(parent)

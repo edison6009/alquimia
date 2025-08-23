@@ -1,5 +1,9 @@
 from app.models import Base
-from app.models.abstracts import PasswordMixin, DateTimeMixin, SoftDeleteMixin
+
+from app.models.abstracts.datetime_mixin import DateTimeMixin
+from app.models.abstracts.soft_delete_mixin import SoftDeleteMixin
+from app.models.abstracts.password_mixin import PasswordMixin
+
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String
 

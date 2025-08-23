@@ -8,7 +8,7 @@ from app.models.rols import Rol
 from app.validations.user_validations import UserValidation
 
 from app.mixins.formats_validations import formats_validations
-from app.mixins.has_error_payload import has_error_payload
+from app.mixins.has_errors import has_errors
 
 class UserController:
 
@@ -56,7 +56,7 @@ class UserController:
 
     def register(self, **kwargs) -> User | dict:
         data = self.create(**kwargs)
-        if has_error_payload(data):
+        if has_errors(data):
             return data
 
         session = SessionLocal()
